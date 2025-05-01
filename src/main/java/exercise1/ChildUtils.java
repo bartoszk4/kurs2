@@ -15,10 +15,10 @@ public class ChildUtils {
         Child child;
         List<Child> childList = new ArrayList<>();
 
-        for (String singleChildFromList : FileHandler.readDataFromFile(pathname, false)) {
-            child = createObjectOfChildFromData(singleChildFromList);
-            mother = mothersMap.get(child.getMotherId());
-            child.setMother(mother);
+        for (String singleLineOfData : FileHandler.readDataFromFile(pathname, false)) {
+            int motherID = Integer.parseInt(singleLineOfData.split(" ")[6]);
+            mother = mothersMap.get(motherID);
+            child = createObjectOfChildFromData(singleLineOfData, mother);
             mother.assignChildToMother(child);
             childList.add(child);
         }

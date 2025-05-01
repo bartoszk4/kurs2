@@ -9,19 +9,18 @@ public class Child extends Person {
     private LocalDate birthday;
     private int weight;
     private int height;
-    private int motherId;
     private Mother mother;
 
-    public Child(int index, String firstName, Sex sex, LocalDate birthday, int weight, int height, int motherId) {
+    public Child(int index, String firstName, Sex sex, LocalDate birthday, int weight, int height, Mother mother) {
         super(index, firstName);
         this.sex = sex;
         this.birthday = birthday;
         this.weight = weight;
         this.height = height;
-        this.motherId = motherId;
+        setMother(mother);
     }
 
-    public static Child createObjectOfChildFromData(String dataOfChild) {
+    public static Child createObjectOfChildFromData(String dataOfChild, Mother mother) {
         String[] splitData = dataOfChild.split(" ");
 
         return new Child(Integer.parseInt(splitData[0]),
@@ -30,7 +29,7 @@ public class Child extends Person {
                 LocalDate.parse(splitData[3]),
                 Integer.parseInt(splitData[4]),
                 Integer.parseInt(splitData[5]),
-                Integer.parseInt(splitData[6])
+                mother
         );
     }
 
@@ -74,14 +73,6 @@ public class Child extends Person {
         this.mother = mother;
     }
 
-    public int getMotherId() {
-        return motherId;
-    }
-
-    public void setMotherId(int motherId) {
-        this.motherId = motherId;
-    }
-
     public boolean isTallerThan(Child other) {
         return (other != null ? this.height > other.height : true);
     }
@@ -91,12 +82,12 @@ public class Child extends Person {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Child child = (Child) o;
-        return weight == child.weight && height == child.height && motherId == child.motherId && Objects.equals(sex, child.sex) && Objects.equals(birthday, child.birthday) && Objects.equals(mother, child.mother);
+        return weight == child.weight && height == child.height && sex == child.sex && Objects.equals(birthday, child.birthday) && Objects.equals(mother, child.mother);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sex, birthday, weight, height, motherId, mother);
+        return Objects.hash(sex, birthday, weight, height, mother);
     }
 
     @Override
@@ -107,7 +98,6 @@ public class Child extends Person {
                 ", birthday=" + birthday +
                 ", weight=" + weight +
                 ", height=" + height +
-                ", motherId=" + motherId +
                 (mother != null ? (", motherName=" + mother.getFirstName()) : "") +
                 (mother != null ? (", motherAge=" + mother.getAge()) : "") +
                 '}';
